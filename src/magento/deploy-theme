@@ -1,0 +1,23 @@
+#!/bin/bash
+clear
+
+# -----------------------------------------------------------------------------
+
+THEME=$1
+LOCALE=$2
+GRUNT_THEME=$3
+
+# -----------------------------------------------------------------------------
+
+rm -rf "pub/static/frontend/$THEME/$LOCALE" \
+       "var/cache" \
+       "var/page_cache" \
+       "var/view_preprocessed/less/frontend/$THEME/$LOCALE" \
+       "var/view_preprocessed/pub/static/frontend/$THEME/$LOCALE" \
+       "var/view_preprocessed/source/frontend/$THEME/$LOCALE"
+
+# -----------------------------------------------------------------------------
+
+grunt exec:$GRUNT_THEME
+php bin/magento setup:static-content:deploy $LOCALE --theme="$THEME" --no-html-minify -f
+grunt watch less:$GRUNT_THEME
