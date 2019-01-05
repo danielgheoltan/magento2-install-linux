@@ -1,7 +1,6 @@
 #!/bin/bash
 
 PROJECT_PATH="D:/Magento/ce/v2.3.0"
-PROJECT_HOST="magento-ce-2-3-0.local"
 
 MYSQL_HOST="localhost"
 MYSQL_USERNAME="root"
@@ -15,3 +14,6 @@ MAGENTO_ADMIN_PASSWORD="admin123"
 MAGENTO_ADMIN_FIRSTNAME="admin"
 MAGENTO_ADMIN_LASTNAME="admin"
 MAGENTO_ADMIN_EMAIL="noreply@domain.com"
+MAGENTO_LANGUAGE=en_US
+MAGENTO_CURRENCY=USD
+MAGENTO_TIMEZONE=America/Los_Angeles

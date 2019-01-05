@@ -19,9 +19,9 @@ source config.sh
 
 # -----------------------------------------------------------------------------
 
-cd $PROJECT_PATH
+cd ${PROJECT_PATH}
 
 ./deploy
 
-# start "Front-end" /max "$MAGENTO_BASE_URL"
-# start "Back-end" /max "$MAGENTO_BASE_URL/$MAGENTO_BACKEND_FRONTNAME"
+xdg-open "${MAGENTO_BASE_URL}"
+xdg-open "${MAGENTO_BASE_URL}/${MAGENTO_BACKEND_FRONTNAME}"
