@@ -2,4 +2,4 @@
 
 ## Introduction
 
-Performs a completely automated Magento 2 installation on Linux OS.
+Performs a completely automated Magento 2 installation on Linux.
