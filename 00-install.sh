@@ -8,7 +8,7 @@ source config.sh
 # -----------------------------------------------------------------------------
 # Variables
 
-INSTALL_PATH=$(PWD)
+INSTALL_PATH=${PWD}
 
 TIMESTAMP=$(date +'%Y%m%d%H%M%S')
 
@@ -24,7 +24,7 @@ if [ -d "${PROJECT_PATH}" ]; then
 fi
 
 if [ ! -d "${PROJECT_PATH}" ]; then
-    mkdir "${PROJECT_PATH}"
+    mkdir -p "${PROJECT_PATH}"
 fi
 
 # -----------------------------------------------------------------------------
@@ -45,12 +45,12 @@ mysql -u ${MYSQL_USERNAME} -p${MYSQL_PASSWORD} -e \
 
 cd "${PROJECT_PATH}"
 
-COMPOSER_AUTH={"http-basic": {"repo.magento.com": {"username": "${MAGENTO_PUBLIC_KEY}", "password": "${MAGENTO_PRIVATE_KEY}"}}}
+COMPOSER_AUTH="{\"http-basic\": {\"repo.magento.com\": {\"username\": \"${MAGENTO_PUBLIC_KEY}\", \"password\": \"${MAGENTO_PRIVATE_KEY}\"}}}"
 
 if [ -z $1 ]; then
-    composer create-project --repository=https://repo.magento.com/ magento/project-community-edition .
+    composer create-project --repository=https://repo.magento.com/ magento/project-${MAGENTO_EDITION}-edition .
 else
-    composer create-project --repository=https://repo.magento.com/ magento/project-community-edition="$1" .
+    composer create-project --repository=https://repo.magento.com/ magento/project-${MAGENTO_EDITION}-edition="$1" .
 fi
 
 echo ${COMPOSER_AUTH} > auth.json
@@ -124,20 +124,6 @@ mv package.json.sample      package.json
 cp "${INSTALL_PATH}/src/magento/dev/tools/grunt/configs/local-themes.js" "${PROJECT_PATH}/dev/tools/grunt/configs/local-themes.js"
 
 npm install
-
-# -----------------------------------------------------------------------------
-# Copy Shell Files
-
-cp "${INSTALL_PATH}/src/magento/deploy"             "${PROJECT_PATH}/deploy"
-cp "${INSTALL_PATH}/src/magento/deploy-backend"     "${PROJECT_PATH}/deploy-backend"
-cp "${INSTALL_PATH}/src/magento/deploy-frontend"    "${PROJECT_PATH}/deploy-frontend"
-cp "${INSTALL_PATH}/src/magento/deploy-theme"       "${PROJECT_PATH}/deploy-theme"
-cp "${INSTALL_PATH}/src/magento/deploy-theme-blank" "${PROJECT_PATH}/deploy-theme-blank"
-cp "${INSTALL_PATH}/src/magento/deploy-theme-luma"  "${PROJECT_PATH}/deploy-theme-luma"
-cp "${INSTALL_PATH}/src/magento/di"                 "${PROJECT_PATH}/di"
-cp "${INSTALL_PATH}/src/magento/grunt-theme"        "${PROJECT_PATH}/grunt-theme"
-cp "${INSTALL_PATH}/src/magento/grunt-theme-blank"  "${PROJECT_PATH}/grunt-theme-blank"
-cp "${INSTALL_PATH}/src/magento/grunt-theme-luma"   "${PROJECT_PATH}/grunt-theme-luma"
 
 # -----------------------------------------------------------------------------
 # The End - Miscellaneous Commands

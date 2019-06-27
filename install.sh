@@ -21,7 +21,5 @@ source config.sh
 
 cd ${PROJECT_PATH}
 
-./deploy
-
 xdg-open "${MAGENTO_BASE_URL}"
 xdg-open "${MAGENTO_BASE_URL}/${MAGENTO_BACKEND_FRONTNAME}"
