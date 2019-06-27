@@ -46,6 +46,7 @@ mysql -u ${MYSQL_USERNAME} -p${MYSQL_PASSWORD} -e \
 cd "${PROJECT_PATH}"
 
 COMPOSER_AUTH="{\"http-basic\": {\"repo.magento.com\": {\"username\": \"${MAGENTO_PUBLIC_KEY}\", \"password\": \"${MAGENTO_PRIVATE_KEY}\"}}}"
+composer config -g http-basic.repo.magento.com ${MAGENTO_PUBLIC_KEY} ${MAGENTO_PRIVATE_KEY}
 
 if [ -z $1 ]; then
     composer create-project --repository=https://repo.magento.com/ magento/project-${MAGENTO_EDITION}-edition .

@@ -33,7 +33,7 @@ module.exports = {
         ],
         dsl: 'less'
     },
-    evozon: {
+    dg: {
         area: 'frontend',
         name: 'Magento/blank',
         locale: 'en_US',
