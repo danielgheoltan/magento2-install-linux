@@ -16,6 +16,19 @@ PROJECT_FOLDER=$(basename ${PROJECT_PATH})
 
 DATABASE=$(mysql -u ${MYSQL_USERNAME} -p${MYSQL_PASSWORD} -e "SHOW DATABASES LIKE '${MYSQL_DATABASE}'" | head -2 | tail -1)
 
+SERVER_NAME=${MAGENTO_BASE_URL##http*://}
+
+APACHE_CONF="${SERVER_NAME}.conf"
+
+# -----------------------------------------------------------------------------
+# Host Setup
+
+sudo sh -c "echo '127.0.0.1    ${SERVER_NAME}' >> /etc/hosts"
+
+sudo sh -c "echo '<VirtualHost *:80>\n    ServerName ${SERVER_NAME}\n    DocumentRoot ${PROJECT_PATH}\n</VirtualHost>' > /etc/apache2/sites-available/${APACHE_CONF}"
+sudo a2ensite -q ${APACHE_CONF}
+sudo service apache2 restart
+
 # -----------------------------------------------------------------------------
 # Folders Setup
 
@@ -86,32 +99,27 @@ php bin/magento cache:disable layout block_html full_page translate
 # -----------------------------------------------------------------------------
 # Set Session Lifetime
 
-mysql -u ${MYSQL_USERNAME} -p${MYSQL_PASSWORD} -e \
-    "USE ${MYSQL_DATABASE}; INSERT INTO core_config_data (scope, scope_id, path, value) VALUES ('default', 0, 'admin/security/session_lifetime', 604800) ON DUPLICATE KEY UPDATE value = 604800;"
+php bin/magento config:set admin/security/session_lifetime 604800
 
 # -----------------------------------------------------------------------------
 # Disable Sign Static Files
 
-mysql -u ${MYSQL_USERNAME} -p${MYSQL_PASSWORD} -e \
-    "USE ${MYSQL_DATABASE}; INSERT INTO core_config_data (scope, scope_id, path, value) VALUES ('default', 0, 'dev/static/sign', 0) ON DUPLICATE KEY UPDATE value = 0;"
+php bin/magento config:set dev/static/sign 0
 
 # -----------------------------------------------------------------------------
 # Allow Symlinks
 
-mysql -u ${MYSQL_USERNAME} -p${MYSQL_PASSWORD} -e \
-    "USE ${MYSQL_DATABASE}; INSERT INTO core_config_data (scope, scope_id, path, value) VALUES ('default', 0, 'dev/template/allow_symlink', 1) ON DUPLICATE KEY UPDATE value = 1;"
+php bin/magento config:set dev/template/allow_symlink 1
 
 # -----------------------------------------------------------------------------
 # Disable WYSIWYG Editor by Default
 
-mysql -u ${MYSQL_USERNAME} -p${MYSQL_PASSWORD} -e \
-    "USE ${MYSQL_DATABASE}; INSERT INTO core_config_data (scope, scope_id, path, value) VALUES ('default', 0, 'cms/wysiwyg/enabled', 'hidden') ON DUPLICATE KEY UPDATE value = 'hidden';"
+php bin/magento config:set cms/wysiwyg/enabled hidden
 
 # -----------------------------------------------------------------------------
 # Set Admin Startup Page
 
-mysql -u ${MYSQL_USERNAME} -p${MYSQL_PASSWORD} -e \
-    "USE ${MYSQL_DATABASE}; INSERT INTO core_config_data (scope, scope_id, path, value) VALUES ('default', 0, 'admin/startup/menu_item_id', 'Magento_Config::system_config') ON DUPLICATE KEY UPDATE value = 'Magento_Config::system_config';"
+php bin/magento config:set admin/startup/menu_item_id Magento_Config::system_config
 
 # -----------------------------------------------------------------------------
 # Grunt Setup
