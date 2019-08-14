@@ -117,6 +117,11 @@ php bin/magento config:set dev/template/allow_symlink 1
 php bin/magento config:set cms/wysiwyg/enabled hidden
 
 # -----------------------------------------------------------------------------
+# Disable Captcha in Admin
+
+php bin/magento config:set admin/captcha/enable 0
+
+# -----------------------------------------------------------------------------
 # Set Admin Startup Page
 
 php bin/magento config:set admin/startup/menu_item_id Magento_Config::system_config
