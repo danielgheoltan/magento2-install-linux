@@ -97,9 +97,24 @@ php bin/magento deploy:mode:set developer
 php bin/magento cache:disable layout block_html full_page translate
 
 # -----------------------------------------------------------------------------
+# Set Use Form Key
+
+php bin/magento config:set admin/security/use_form_key 0
+
+# -----------------------------------------------------------------------------
 # Set Session Lifetime
 
 php bin/magento config:set admin/security/session_lifetime 604800
+
+# -----------------------------------------------------------------------------
+# Set Password Lifetime
+
+php bin/magento config:set admin/security/password_lifetime ''
+
+# -----------------------------------------------------------------------------
+# Set Password Is Forced
+
+php bin/magento config:set admin/security/password_is_forced 0
 
 # -----------------------------------------------------------------------------
 # Disable Sign Static Files
