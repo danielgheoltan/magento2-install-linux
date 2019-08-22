@@ -9,13 +9,13 @@ source config.sh
 
 ./00-install.sh $1
 
-# call 10-install-__________-module-__________
-# call 11-install-__________-theme-__________
-# call 12-install-__________-languagepack-__________
+# ./10-install-__________-module-__________
+# ./11-install-__________-theme-__________
+# ./12-install-__________-languagepack-__________
 
-# call 20-install-__________-module-__________
-# call 21-install-__________-theme-__________
-# call 22-install-__________-languagepack-__________
+# ./20-install-__________-module-__________
+# ./21-install-__________-theme-__________
+# ./22-install-__________-languagepack-__________
 
 # -----------------------------------------------------------------------------
 

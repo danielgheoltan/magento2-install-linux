@@ -25,7 +25,17 @@ APACHE_CONF="${SERVER_NAME}.conf"
 
 sudo sh -c "echo '127.0.0.1    ${SERVER_NAME}' >> /etc/hosts"
 
-sudo sh -c "echo '<VirtualHost *:80>\n    ServerName ${SERVER_NAME}\n    DocumentRoot ${PROJECT_PATH}\n</VirtualHost>' > /etc/apache2/sites-available/${APACHE_CONF}"
+sudo sh -c "echo '<VirtualHost *:80>
+    ServerName ${SERVER_NAME}
+    DocumentRoot ${PROJECT_PATH}
+    <Directory ${PROJECT_PATH}>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+        Require all granted
+    </Directory>
+</VirtualHost>' > /etc/apache2/sites-available/${APACHE_CONF}"
 sudo a2ensite -q ${APACHE_CONF}
 sudo service apache2 restart
 
@@ -61,11 +71,7 @@ cd "${PROJECT_PATH}"
 COMPOSER_AUTH="{\"http-basic\": {\"repo.magento.com\": {\"username\": \"${MAGENTO_PUBLIC_KEY}\", \"password\": \"${MAGENTO_PRIVATE_KEY}\"}}}"
 composer config -g http-basic.repo.magento.com ${MAGENTO_PUBLIC_KEY} ${MAGENTO_PRIVATE_KEY}
 
-if [ -z $1 ]; then
-    composer create-project --repository=https://repo.magento.com/ magento/project-${MAGENTO_EDITION}-edition .
-else
-    composer create-project --repository=https://repo.magento.com/ magento/project-${MAGENTO_EDITION}-edition="$1" .
-fi
+composer create-project --repository=https://repo.magento.com/ magento/project-${MAGENTO_EDITION}-edition="${MAGENTO_VERSION}" .
 
 echo ${COMPOSER_AUTH} > auth.json
 
